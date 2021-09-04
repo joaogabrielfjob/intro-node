@@ -13,6 +13,7 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
 app.set('view engine', 'ejs');
 
 app.use(express.static('public'));
+app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 
 app.get('/add-blog', (request, response) => {
@@ -27,18 +28,6 @@ app.get('/add-blog', (request, response) => {
     .catch((error) => console.error(error));
 });
 
-app.get('/all-blogs', (request, response) => {
-  Blog.find()
-    .then((result) => response.send(result))
-    .catch((error) => console.error(error));
-});
-
-app.get('/single-blog', (request, response) => {
-  Blog.findById('61335c920cabe9ffca0dca2d')
-    .then((result) => response.send(result))
-    .catch((error) => console.error(error));
-})
-
 app.get('/', (request, response) => {
   response.redirect('/blogs')
 });
@@ -50,6 +39,32 @@ app.get('/blogs', (request, response) => {
     })
     .catch((error) => console.error(error));
 });
+
+app.post('/blogs', (request, response) => {
+  const blog = new Blog(request.body);
+
+  blog.save()
+    .then((result) => response.redirect('/blogs'))
+    .catch((error) => console.error(error));
+})
+
+app.get('/blogs/:id', (request, response) => {
+  const { id } = request.params;
+
+  Blog.findById(id)
+    .then((result) => {
+      response.render('details', { title: 'Blog Details', blog: result });
+    })
+    .catch((error) => console.error(error));
+})
+
+app.delete('/blogs/:id', (request, response) => {
+  const { id } = request.params;
+
+  Blog.findByIdAndDelete(id)
+    .then((result) => response.json({ redirect: '/blogs' }))
+    .catch((error) => console.error(error));
+})
 
 app.get('/about', (request, response) => {
   response.render('about', { title: 'About' });
