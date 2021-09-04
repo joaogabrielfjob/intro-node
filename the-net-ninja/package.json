@@ -4,12 +4,13 @@
   "description": "Simple project to learn node",
   "main": "server.js",
   "dependencies": {
+    "express": "^4.17.1",
     "lodash": "^4.17.21",
     "nodemon": "^2.0.12"
   },
   "devDependencies": {},
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon app.js"
   },
   "author": "João Gabriel",
   "license": "ISC"
