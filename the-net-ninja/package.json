@@ -1,0 +1,16 @@
+{
+  "name": "the-net-ninja",
+  "version": "1.0.0",
+  "description": "Simple project to learn node",
+  "main": "server.js",
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "nodemon": "^2.0.12"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "author": "João Gabriel",
+  "license": "ISC"
+}
